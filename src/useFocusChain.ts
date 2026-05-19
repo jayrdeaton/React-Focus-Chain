@@ -1,0 +1,21 @@
+import { useRef } from 'react'
+
+type Focusable = { focus: () => void }
+
+export type Registration = {
+  ref: (el: Focusable | null) => void
+  onSubmitEditing: () => void
+}
+
+export function useFocusChain(): () => Registration {
+  const refs = useRef<Map<number, Focusable | null>>(new Map())
+  let i = 0
+
+  return function register(): Registration {
+    const idx = i++
+    return {
+      ref: (el: Focusable | null) => refs.current.set(idx, el),
+      onSubmitEditing: () => refs.current.get(idx + 1)?.focus()
+    }
+  }
+}
