@@ -5,6 +5,7 @@ type Focusable = { focus: () => void }
 export type Registration = {
   ref: (el: Focusable | null) => void
   onSubmitEditing: () => void
+  focus: () => void
 }
 
 export function useFocusChain(): () => Registration {
@@ -15,7 +16,8 @@ export function useFocusChain(): () => Registration {
     const idx = i++
     return {
       ref: (el: Focusable | null) => refs.current.set(idx, el),
-      onSubmitEditing: () => refs.current.get(idx + 1)?.focus()
+      onSubmitEditing: () => refs.current.get(idx + 1)?.focus(),
+      focus: () => refs.current.get(idx)?.focus()
     }
   }
 }
