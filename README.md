@@ -42,6 +42,7 @@ Returns a `register` function. Call `register()` once per input during render, i
 type Registration = {
   ref: (el: { focus: () => void } | null) => void
   onSubmitEditing: () => void
+  focus: () => void
 }
 ```
 
