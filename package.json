@@ -1,22 +1,24 @@
 {
   "name": "@rific/focus-chain",
   "version": "0.1.5",
-  "description": "Auto-incrementing focus chain hook for React Native form inputs",
+  "description": "Auto-incrementing focus chain hook for React form inputs \u2014 React Native or web",
   "keywords": [
+    "react",
     "react-native",
     "focus",
     "focus-chain",
     "keyboard",
     "text-input",
-    "form"
+    "form",
+    "web"
   ],
-  "homepage": "https://github.com/jayrdeaton/React-Native-Focus-Chain#readme",
+  "homepage": "https://github.com/jayrdeaton/React-Focus-Chain#readme",
   "bugs": {
-    "url": "https://github.com/jayrdeaton/React-Native-Focus-Chain/issues"
+    "url": "https://github.com/jayrdeaton/React-Focus-Chain/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jayrdeaton/React-Native-Focus-Chain.git"
+    "url": "git+https://github.com/jayrdeaton/React-Focus-Chain.git"
   },
   "license": "MIT",
   "author": "Jay Deaton",
@@ -24,6 +26,7 @@
   "type": "commonjs",
   "exports": {
     ".": {
+      "react-native": "./src/index.ts",
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
@@ -33,7 +36,10 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "src",
+    "!src/__tests__",
+    "!src/__mocks__"
   ],
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts --clean",
@@ -47,7 +53,7 @@
     "test": "jest",
     "test:watch": "jest --watchAll",
     "typecheck": "tsc --noEmit",
-    "preversion": "npm run lint && npm test"
+    "preversion": "npm run lint && npm test && npm run build"
   },
   "devDependencies": {
     "@testing-library/dom": "^10.4.1",
@@ -74,8 +80,7 @@
     "typescript-eslint": "^8.59.3"
   },
   "peerDependencies": {
-    "react": ">=18.0.0",
-    "react-native": ">=0.73.0"
+    "react": ">=18.0.0"
   },
   "publishConfig": {
     "access": "public"

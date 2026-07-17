@@ -30,6 +30,25 @@ function MyForm() {
 
 Pressing return on any input automatically focuses the next one. The last input receives no `onSubmitEditing` target, so nothing happens (pair it with `returnKeyType='done'` and your own submit handler).
 
+## Plain React / web
+
+The hook has no React Native dependency — its only requirement is elements exposing `focus()`, which DOM inputs do. On the web, wire `onSubmitEditing` to the Enter key yourself:
+
+```tsx
+function WebForm() {
+  const register = useFocusChain()
+  const first = register()
+  const second = register()
+
+  return (
+    <>
+      <input ref={first.ref} onKeyDown={(e) => e.key === 'Enter' && first.onSubmitEditing()} />
+      <input ref={second.ref} onKeyDown={(e) => e.key === 'Enter' && second.onSubmitEditing()} />
+    </>
+  )
+}
+```
+
 ## API
 
 ### `useFocusChain(): () => Registration`
