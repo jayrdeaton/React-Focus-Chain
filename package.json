@@ -1,7 +1,7 @@
 {
   "name": "@rific/focus-chain",
   "version": "0.2.0",
-  "description": "Auto-incrementing focus chain hook for React form inputs — React Native or web",
+  "description": "Auto-incrementing focus chain hook for React form inputs \u2014 React Native or web",
   "keywords": [
     "react",
     "react-native",
@@ -26,7 +26,7 @@
   "type": "commonjs",
   "exports": {
     ".": {
-      "react-native": "./src/index.ts",
+      "react-native": "./dist/index.js",
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
