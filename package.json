@@ -1,6 +1,6 @@
 {
   "name": "@rific/focus-chain",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "Auto-incrementing focus chain hook for React form inputs — React Native or web",
   "keywords": [
     "react",
