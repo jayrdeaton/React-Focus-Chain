@@ -51,4 +51,15 @@ describe('useFocusChain', () => {
 
     expect(mockFocus).not.toHaveBeenCalled()
   })
+
+  // Regression test: without this, single-line TextInput's default blurOnSubmit=true races the
+  // native auto-blur against our own focus() call on the next field, closing the keyboard and
+  // reopening it instead of handing focus straight across.
+  it('register() returns blurOnSubmit: false, so native auto-blur never races the focus handoff', () => {
+    const { result } = renderHook(() => {
+      const register = useFocusChain()
+      return register()
+    })
+    expect(result.current.blurOnSubmit).toBe(false)
+  })
 })

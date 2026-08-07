@@ -59,13 +59,14 @@ Returns a `register` function. Call `register()` once per input during render, i
 
 ```ts
 type Registration = {
+  blurOnSubmit: boolean
   ref: (el: { focus: () => void } | null) => void
   onSubmitEditing: () => void
   focus: () => void
 }
 ```
 
-Both props are spread directly onto the input component.
+All props are meant to be spread directly onto the input component. `blurOnSubmit` is always `false`: React Native's `TextInput` defaults it to `true` for single-line fields, which blurs (and starts dismissing the keyboard) as part of handling the return key itself, racing against the `focus()` call this hook makes on the next field. Without it, the keyboard visibly closes and reopens between fields instead of staying up.
 
 ## Notes
 
