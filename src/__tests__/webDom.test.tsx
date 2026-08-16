@@ -8,12 +8,12 @@ declare const document: { activeElement: unknown }
 
 function WebForm() {
   const register = useFocusChain()
-  const first = register()
-  const second = register()
+  const [firstRef, firstProps] = register()
+  const [secondRef, secondProps] = register()
   return (
     <>
-      <input data-testid='a' onKeyDown={(e) => e.key === 'Enter' && first.onSubmitEditing()} ref={first.ref} />
-      <input data-testid='b' onKeyDown={(e) => e.key === 'Enter' && second.onSubmitEditing()} ref={second.ref} />
+      <input data-testid='a' onKeyDown={(e) => e.key === 'Enter' && firstProps.onSubmitEditing()} ref={firstRef} />
+      <input data-testid='b' onKeyDown={(e) => e.key === 'Enter' && secondProps.onSubmitEditing()} ref={secondRef} />
     </>
   )
 }
