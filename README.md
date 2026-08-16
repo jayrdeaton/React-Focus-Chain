@@ -10,22 +10,22 @@ npm install @rific/focus-chain
 
 ## Usage
 
-Call `register()` once per input in render order. It returns a `[ref, props]` tuple — pass `ref` to the input's `ref` prop, and spread `props` for the rest. Keeping the ref out of the props object is what keeps this safe under the React Compiler: bundling a callback-ref together with plain fields in one object causes the compiler to treat every field as a ref read.
+Call `register()` once per input in render order. It returns `{ ref, props }` — pass `ref` to the input's `ref` prop, and spread `props` for the rest. Keeping the ref out of the props object (as its own named key, not bundled in) is what keeps this safe under the React Compiler: bundling a callback-ref together with plain fields in one object causes the compiler to treat every field as a ref read.
 
 ```tsx
 import { useFocusChain } from '@rific/focus-chain'
 
 function MyForm() {
   const register = useFocusChain()
-  const [firstRef, firstProps] = register()
-  const [lastRef, lastProps] = register()
-  const [emailRef, emailProps] = register()
+  const first = register()
+  const last = register()
+  const email = register()
 
   return (
     <>
-      <TextInput ref={firstRef} {...firstProps} returnKeyType='next' placeholder='First name' />
-      <TextInput ref={lastRef} {...lastProps} returnKeyType='next' placeholder='Last name' />
-      <TextInput ref={emailRef} {...emailProps} returnKeyType='done' placeholder='Email' />
+      <TextInput ref={first.ref} {...first.props} returnKeyType='next' placeholder='First name' />
+      <TextInput ref={last.ref} {...last.props} returnKeyType='next' placeholder='Last name' />
+      <TextInput ref={email.ref} {...email.props} returnKeyType='done' placeholder='Email' />
     </>
   )
 }
@@ -40,13 +40,13 @@ The hook has no React Native dependency — its only requirement is elements exp
 ```tsx
 function WebForm() {
   const register = useFocusChain()
-  const [firstRef, firstProps] = register()
-  const [secondRef, secondProps] = register()
+  const first = register()
+  const second = register()
 
   return (
     <>
-      <input ref={firstRef} onKeyDown={(e) => e.key === 'Enter' && firstProps.onSubmitEditing()} />
-      <input ref={secondRef} onKeyDown={(e) => e.key === 'Enter' && secondProps.onSubmitEditing()} />
+      <input ref={first.ref} onKeyDown={(e) => e.key === 'Enter' && first.props.onSubmitEditing()} />
+      <input ref={second.ref} onKeyDown={(e) => e.key === 'Enter' && second.props.onSubmitEditing()} />
     </>
   )
 }
@@ -61,14 +61,14 @@ Returns a `register` function. Call `register()` once per input during render, i
 ### `Registration`
 
 ```ts
-type Registration = readonly [
-  ref: (el: { focus: () => void } | null) => void,
+type Registration = {
+  ref: (el: { focus: () => void } | null) => void
   props: {
     blurOnSubmit: boolean
     onSubmitEditing: () => void
     focus: () => void
   }
-]
+}
 ```
 
 `ref` goes on the input's `ref` prop; `props` is meant to be spread directly onto the input component. `blurOnSubmit` is always `false`: React Native's `TextInput` defaults it to `true` for single-line fields, which blurs (and starts dismissing the keyboard) as part of handling the return key itself, racing against the `focus()` call this hook makes on the next field. Without it, the keyboard visibly closes and reopens between fields instead of staying up.
