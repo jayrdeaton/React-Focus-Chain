@@ -31,12 +31,13 @@ Enforced by ESLint + Prettier.
 **ESLint rules (warnings):**
 - `simple-import-sort` — imports and exports must be sorted
 - `no-console` — no console statements
+- `react-hooks/rules-of-hooks` — error (not a warning); the rest of the `react-hooks` and `react-native` rule sets apply too, at warn
 
 ## Architecture
 
 Single hook, single file: `src/useFocusChain.ts`.
 
-`useFocusChain()` returns a `register` function. Each call to `register()` during render auto-increments an index and returns `{ ref, onSubmitEditing }` to spread onto an input. `i` resets to 0 on every render; `refs` is stable via `useRef`. This means render order determines chain order — works correctly for stable trees, breaks for conditional inputs.
+`useFocusChain()` returns a `register` function. Each call to `register()` during render auto-increments an index and returns a `Registration`: `{ ref, props }`, where `ref` is a separate top-level key (not bundled into `props`) and `props` holds `{ blurOnSubmit, onSubmitEditing, focus }` to spread onto the input. `i` resets to 0 on every render; `refs` is stable via `useRef`. This means render order determines chain order — works correctly for stable trees, breaks for conditional inputs.
 
 Uses a generic `Focusable` type (`{ focus: () => void }`) instead of importing from react-native, so the only peer dep is `react`.
 
@@ -45,6 +46,7 @@ Uses a generic `Focusable` type (`{ focus: () => void }`) instead of importing f
 ```bash
 npm run release:patch   # bump patch, push tags
 npm run release:minor   # bump minor, push tags
+npm run release:major   # bump major, push tags
 ```
 
-`prepublishOnly` runs `build` automatically. `preversion` runs lint + tests.
+`prepublishOnly` runs `build` automatically. `preversion` runs `verify` (lint + test + typecheck + build).

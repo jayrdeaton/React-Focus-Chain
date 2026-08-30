@@ -3,9 +3,6 @@ import { fireEvent, render } from '@testing-library/react'
 
 import { useFocusChain } from '../useFocusChain'
 
-// tsconfig lib is ES2020 (no DOM) — declare the one global this test touches
-declare const document: { activeElement: unknown }
-
 function WebForm() {
   const register = useFocusChain()
   const first = register()
