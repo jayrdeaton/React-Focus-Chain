@@ -10,7 +10,7 @@ npm install @rific/focus-chain
 
 ## Usage
 
-Call `register()` once per input in render order. It returns `{ ref, props }` — pass `ref` to the input's `ref` prop, and spread `props` for the rest. Keeping the ref out of the props object (as its own named key, not bundled in) is what keeps this safe under the React Compiler: bundling a callback-ref together with plain fields in one object causes the compiler to treat every field as a ref read.
+Call `register()` once per input in render order. It returns `{ ref, props }` - pass `ref` to the input's `ref` prop, and spread `props` for the rest. Keeping the ref out of the props object (as its own named key, not bundled in) is what keeps this safe under the React Compiler: bundling a callback-ref together with plain fields in one object causes the compiler to treat every field as a ref read.
 
 ```tsx
 import { useFocusChain } from '@rific/focus-chain'
@@ -35,7 +35,7 @@ Pressing return on any input automatically focuses the next one. The last input 
 
 ## Plain React / web
 
-The hook has no React Native dependency — its only requirement is elements exposing `focus()`, which DOM inputs do. On the web, wire `onSubmitEditing` to the Enter key yourself:
+The hook has no React Native dependency - its only requirement is elements exposing `focus()`, which DOM inputs do. On the web, wire `onSubmitEditing` to the Enter key yourself:
 
 ```tsx
 function WebForm() {
@@ -75,5 +75,5 @@ type Registration = {
 
 ## Notes
 
-- **Stable render trees only** — inputs registered conditionally (e.g. inside `{show && ...}`) will shift indices when the condition changes. For conditional inputs, split them into separate chains or always render with `editable={false}`.
+- **Stable render trees only**: inputs registered conditionally (e.g. inside `{show && ...}`) will shift indices when the condition changes. For conditional inputs, split them into separate chains or always render with `editable={false}`.
 - Works with any focusable component, not just React Native `TextInput`.

@@ -10,7 +10,7 @@ export type RegistrationProps = {
   focus: () => void
 }
 
-// A named { ref, props } object, not a [ref, props] tuple — a tuple only communicates "ref is
+// A named { ref, props } object, not a [ref, props] tuple - a tuple only communicates "ref is
 // first" positionally, forcing every call site to already know or look up which slot is which.
 // Naming the two keys keeps that same guarantee (ref stays a genuinely separate top-level value,
 // never bundled into the same object as the plain reactive props below) self-documenting instead.
