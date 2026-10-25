@@ -39,6 +39,8 @@ Single hook, single file: `src/useFocusChain.ts`.
 
 `useFocusChain()` returns a `register` function. Each call to `register()` during render auto-increments an index and returns a `Registration`: `{ ref, props }`, where `ref` is a separate top-level key (not bundled into `props`) and `props` holds `{ blurOnSubmit, onSubmitEditing, focus }` to spread onto the input. `i` resets to 0 on every render; `refs` is stable via `useRef`. This means render order determines chain order - works correctly for stable trees, breaks for conditional inputs.
 
+**Call sites destructure the registration** (`const { ref: emailRef, props: email } = register()`), and the README and tests do too. The React Compiler's `react-hooks/refs` rule (eslint-plugin-react-hooks 7) checks each component alone, so nothing in this hook's body can change what it reports: it treats any `ref={x.y}` as reading a ref during render and then flags every other read of `x` (`x.props.onSubmitEditing`), even for a plain object literal or a prop. A destructured `ref` is a plain local it accepts. The `[ref, props]` tuple of 0.4.0 and 0.4.1 was clean for the same reason; 0.4.2's switch to `{ ref, props }`, with `ref={first.ref}` in the README, brought the warnings back (Lumber had 10, two per field). `src/__tests__/compilerLint.test.ts` lints both forms with the real rule.
+
 Uses a generic `Focusable` type (`{ focus: () => void }`) instead of importing from react-native, so the only peer dep is `react`.
 
 ## Publishing

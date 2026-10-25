@@ -12,8 +12,10 @@ export type RegistrationProps = {
 
 // A named { ref, props } object, not a [ref, props] tuple - a tuple only communicates "ref is
 // first" positionally, forcing every call site to already know or look up which slot is which.
-// Naming the two keys keeps that same guarantee (ref stays a genuinely separate top-level value,
-// never bundled into the same object as the plain reactive props below) self-documenting instead.
+// Call sites destructure it (const { ref: emailRef, props: email } = register()): the React
+// Compiler's react-hooks/refs rule only sees the call site, treats any ref={email.ref} as reading
+// a ref during render, and then flags every other read of email too. A destructured ref is a
+// plain local it accepts. See compilerLint.test.ts.
 export type Registration = {
   ref: FocusChainRef
   props: RegistrationProps

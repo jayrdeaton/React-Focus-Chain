@@ -5,18 +5,14 @@ import { useFocusChain } from '../useFocusChain'
 
 function WebForm() {
   const register = useFocusChain()
-  const first = register()
-  const second = register()
-  // first.ref/second.ref are callback refs (see useFocusChain.ts) - React invokes them on
-  // mount/unmount, not during render, so this isn't the ref.current-during-render pattern
-  // react-hooks/refs exists to catch; the rule's heuristics false-positive on a custom hook
-  // returning a callback ref through a wrapper object.
+  // Destructured, as the README shows: ref={first.ref} would trip react-hooks/refs (see
+  // compilerLint.test.ts)
+  const { ref: firstRef, props: first } = register()
+  const { ref: secondRef, props: second } = register()
   return (
     <>
-      {/* eslint-disable-next-line react-hooks/refs */}
-      <input data-testid='a' onKeyDown={(e) => e.key === 'Enter' && first.props.onSubmitEditing()} ref={first.ref} />
-      {/* eslint-disable-next-line react-hooks/refs */}
-      <input data-testid='b' onKeyDown={(e) => e.key === 'Enter' && second.props.onSubmitEditing()} ref={second.ref} />
+      <input data-testid='a' onKeyDown={(e) => e.key === 'Enter' && first.onSubmitEditing()} ref={firstRef} />
+      <input data-testid='b' onKeyDown={(e) => e.key === 'Enter' && second.onSubmitEditing()} ref={secondRef} />
     </>
   )
 }
