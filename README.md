@@ -2,6 +2,8 @@
 
 A React hook that wires up return-key focus chaining across form inputs with no explicit indices or refs.
 
+**[Live demo](https://rific.jaydeaton.com/demos/focus-chain)**
+
 ## Installation
 
 ```sh
