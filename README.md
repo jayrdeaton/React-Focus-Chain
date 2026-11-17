@@ -83,3 +83,7 @@ type Registration = {
 
 - **Stable render trees only**: inputs registered conditionally (e.g. inside `{show && ...}`) will shift indices when the condition changes. For conditional inputs, split them into separate chains or always render with `editable={false}`.
 - Works with any focusable component, not just React Native `TextInput`.
+
+---
+
+Made by [Infinite Token](https://www.infinitetoken.com), the team behind [Lumber](https://lumber.infinitetoken.com): end-to-end encrypted logging.
